@@ -1,4 +1,3 @@
-import { HomeIcon } from "@heroicons/react/24/solid";
 import { FolderIcon } from "@heroicons/react/24/solid";
 import { DocumentTextIcon } from "@heroicons/react/24/solid";
 import { ChevronRightIcon } from "@heroicons/react/24/solid";
@@ -82,35 +81,30 @@ function Fold({ item }) {
 
   const [isOpen, setisOpen] = useState(false);
 
-  return (
-    <>
-      {
-        item.isFolder ?
-          (
-            <li className="ml-5 my-1">
-              <span className="flex items-center gap-2">
-                <ChevronRightIcon onClick={() => setisOpen(!isOpen)} className={`${isOpen ? "rotate-90" : ""} cursor-pointer size-4 text-gray-600`} />
-                <FolderIcon className="size-6 text-blue-400" />
-                {item.name}
-              </span>
+  if (item.isFolder) {
+    return (
+      <li className="ml-5 my-1">
+        <span className="flex items-center gap-2">
+          <ChevronRightIcon onClick={() => setisOpen(!isOpen)} className={`${isOpen ? "rotate-90" : ""} cursor-pointer size-4 text-gray-600`} />
+          <FolderIcon className="size-6 text-blue-400" />
+          {item.name}
+        </span>
 
-              {isOpen &&
-                <ul>
-                  {item.items?.map((items, i) => <Fold key={i} item={items} />)}
-                </ul>
-              }
-            </li>
-          )
-          :
-          (
-            <li className="ml-5 my-1">
-              <span className="flex items-center gap-2">
-                <DocumentTextIcon className="size-6 text-gray-400" />
-                {item.name}
-              </span>
-            </li>
-          )
-      }
-    </>
-  )
+        <ul className={`${isOpen ? "block" : "hidden"}`}>
+          {item.items?.map((items, i) => <Fold key={i} item={items} />)}
+        </ul>
+
+      </li>
+    );
+  }
+  else {
+    return (
+      <li className="ml-5 my-1">
+        <span className="flex items-center gap-2">
+          <DocumentTextIcon className="size-6 text-gray-400" />
+          {item.name}
+        </span>
+      </li>
+    );
+  }
 }
